@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import MainCategories from "../Components/MainCategories";
 
 const HomePage = () => {
 	return (
@@ -24,12 +25,13 @@ const HomePage = () => {
 				</div>
 
 				{/* animated button */}
-				<Link to="/write" className="relative">
+				<Link to="/write" className="hidden md:block relative">
 					<svg
 						viewBox="0 0 200 200"
 						width="200"
 						height="200"
-						className="text-lg tracking-widest animate-spin animatedButton"
+						// className="text-lg tracking-widest animate-spin animatedButton"
+						className="text-lg tracking-widest "
 					>
 						<path
 							id="circlePath"
@@ -62,6 +64,9 @@ const HomePage = () => {
 					</button>
 				</Link>
 			</div>
+
+			{/* Main Categories */}
+			<MainCategories />
 
 			{/* FEATURED POSTS */}
 
