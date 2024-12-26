@@ -20,6 +20,7 @@ const Comment = () => {
 					totam voluptate quae.
 				</p>
 			</div>
+			w
 		</div>
 	);
 };
