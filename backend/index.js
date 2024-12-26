@@ -9,10 +9,12 @@ import webHookRoutes from "./routes/webhook.route.js";
 
 import connectDB from "./lib/connectDB.js";
 import errorHandler from "./lib/errorHandler.js";
+import { clerkMiddleware } from "@clerk/express";
 
 const PORT = process.env.PORT;
 const app = express();
 
+app.use(clerkMiddleware());
 app.use("/webhook", webHookRoutes);
 
 app.use(express.json());
