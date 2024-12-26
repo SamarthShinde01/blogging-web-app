@@ -5,11 +5,15 @@ import "dotenv/config";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import commentRoutes from "./routes/comment.route.js";
+import webHookRoutes from "./routes/webhook.route.js";
+
 import connectDB from "./lib/connectDB.js";
-import errorHandler from "./controllers/errorHandler.js";
+import errorHandler from "./lib/errorHandler.js";
 
 const PORT = process.env.PORT;
 const app = express();
+
+app.use("/webhook", webHookRoutes);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,6 +23,10 @@ app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
 
 app.use(errorHandler);
+
+app.get("/", (req, res) => {
+	res.send("server is live");
+});
 
 app.listen(PORT, () => {
 	connectDB();
