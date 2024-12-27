@@ -83,8 +83,8 @@ const Write = () => {
 						{cover?.fileType && (
 							<Image
 								src={cover.name}
-								w={30}
-								className="rounded-sm opacity-50 object-cover mt-1"
+								w={40}
+								className="rounded-sm opacity-30 object-cover mt-1"
 							/>
 						)}
 					</div>
