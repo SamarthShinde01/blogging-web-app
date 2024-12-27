@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 
 const fetchComments = async (postId) => {
 	const res = await axios.get(
@@ -13,6 +13,7 @@ const fetchComments = async (postId) => {
 };
 
 const Comments = ({ postId }) => {
+	const { user } = useUser();
 	const { getToken } = useAuth();
 
 	const { isPending, data, error } = useQuery({
@@ -43,9 +44,6 @@ const Comments = ({ postId }) => {
 		},
 	});
 
-	if (isPending) return <Loading />;
-	if (error) return <p>Something went wrong: ${error.message}</p>;
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const formData = new FormData(e.target);
@@ -75,9 +73,30 @@ const Comments = ({ postId }) => {
 				</button>
 			</form>
 
-			{data?.map((comment) => (
-				<Comment key={comment._id} comment={comment} />
-			))}
+			{isPending ? (
+				"Loading..."
+			) : error ? (
+				"Error loading comments!"
+			) : (
+				<>
+					{mutation.isPending && (
+						<Comment
+							comment={{
+								desc: `${mutation.variables.desc} (Sending...)`,
+								createdAt: new Date(),
+								user: {
+									username: user.username,
+									img: user.imageUrl,
+								},
+							}}
+						/>
+					)}
+
+					{data?.map((comment) => (
+						<Comment key={comment._id} comment={comment} />
+					))}
+				</>
+			)}
 		</div>
 	);
 };
