@@ -63,6 +63,13 @@ export const deletePost = async (req, res) => {
 		return res.status(401).json({ message: "Not authenticated" });
 	}
 
+	const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+	if (role === "admin") {
+		await Post.findByIdAndDelete(req.params.id);
+		return res.status(200).json({ message: "Post has been deleted" });
+	}
+
 	const user = await User.findOne({ clerkUserId });
 	if (!user) {
 		return res.status(401).json({ message: "User not found" });
@@ -74,10 +81,44 @@ export const deletePost = async (req, res) => {
 	});
 
 	if (!deletedPost) {
-		return res.status(200).json({ message: "You can delete only your posts!" });
+		return res.status(404).json({ message: "You can delete only your posts!" });
 	}
 
-	res.status(200).json({ message: "Post has been deleted" });
+	return res.status(200).json({ message: "Post has been deleted" });
+};
+
+export const featurePost = async (req, res) => {
+	const postId = req.body.postId;
+
+	const clerkUserId = req.auth.userId;
+
+	if (!clerkUserId) {
+		return res.status(401).json({ message: "Not authenticated" });
+	}
+
+	const role = req.auth.sessionClaims?.metadata?.role || "user";
+
+	if (role !== "admin") {
+		return res.status(403).json({ message: "You cannot feature posts!" });
+	}
+
+	const post = await Post.findById(postId);
+
+	if (!post) {
+		return res.status(404).json({ message: "Post not found!" });
+	}
+
+	const isFeatured = post.isFeatured;
+
+	const updatedPost = await Post.findByIdAndUpdate(
+		postId,
+		{
+			isFeatured: !isFeatured,
+		},
+		{ new: true }
+	);
+
+	return res.status(200).json(updatedPost);
 };
 
 const imagekit = new ImageKit({

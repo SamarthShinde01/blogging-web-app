@@ -1,7 +1,6 @@
 import axios from "axios";
 import Comment from "./Comment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Loading from "./Loading";
 import { toast } from "react-toastify";
 import { useAuth, useUser } from "@clerk/clerk-react";
 
@@ -61,6 +60,7 @@ const Comments = ({ postId }) => {
 				className="flex items-center justify-between gap-8 w-full"
 			>
 				<textarea
+					required
 					name="desc"
 					placeholder="Write a comment..."
 					className="w-full p-4 rounded-xl"
@@ -93,7 +93,7 @@ const Comments = ({ postId }) => {
 					)}
 
 					{data?.map((comment) => (
-						<Comment key={comment._id} comment={comment} />
+						<Comment key={comment._id} comment={comment} postId={postId} />
 					))}
 				</>
 			)}
