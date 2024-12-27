@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
 
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
-app.use("/comment", commentRoutes);
+app.use("/comments", commentRoutes);
 
 app.use(errorHandler);
 

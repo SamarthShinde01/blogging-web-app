@@ -13,6 +13,7 @@
 		"@clerk/clerk-react": "^5.21.0",
 		"@tanstack/react-query": "^5.62.10",
 		"axios": "^1.7.9",
+		"he": "^1.2.0",
 		"imagekitio-react": "^4.2.0",
 		"lucide-react": "^0.469.0",
 		"react": "^18.3.1",
