@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import Search from "./Search";
 
 const SideMenu = () => {
@@ -9,6 +9,15 @@ const SideMenu = () => {
 			setSearchParams({
 				...Object.fromEntries(searchParams.entries()),
 				sort: e.target.value,
+			});
+		}
+	};
+
+	const handleCategoryChange = (category) => {
+		if (searchParams.get("cat") !== category) {
+			setSearchParams({
+				...Object.fromEntries(searchParams.entries()),
+				cat: category,
 			});
 		}
 	};
@@ -64,24 +73,42 @@ const SideMenu = () => {
 
 			<h1 className="mt-8 mb-4 text-sm font-medium">Categories</h1>
 			<div className="flex flex-col gap-2 text-sm">
-				<Link className="underline" to="/posts">
+				<span
+					onClick={() => handleCategoryChange("general")}
+					className="underline cursor-pointer"
+				>
 					All
-				</Link>
-				<Link className="underline" to="/posts?cat=web-design">
+				</span>
+				<span
+					onClick={() => handleCategoryChange("web-design")}
+					className="underline cursor-pointer"
+				>
 					Web Design
-				</Link>
-				<Link className="underline" to="/posts?cat=development">
+				</span>
+				<span
+					onClick={() => handleCategoryChange("development")}
+					className="underline cursor-pointer"
+				>
 					Development
-				</Link>
-				<Link className="underline" to="/posts?cat=databases">
+				</span>
+				<span
+					onClick={() => handleCategoryChange("databases")}
+					className="underline cursor-pointer"
+				>
 					Databases
-				</Link>
-				<Link className="underline" to="/posts?cat=seo">
+				</span>
+				<span
+					onClick={() => handleCategoryChange("seo")}
+					className="underline cursor-pointer"
+				>
 					Search Engines
-				</Link>
-				<Link className="underline" to="/posts?cat=marketing">
+				</span>
+				<span
+					onClick={() => handleCategoryChange("marketing")}
+					className="underline cursor-pointer"
+				>
 					Marketing
-				</Link>
+				</span>
 			</div>
 		</div>
 	);
